@@ -371,4 +371,5 @@ instance/
 ```
 #   J e c y a n i P r o p e r t i e s -  
  #   J e c y a n i P r o p e r t i e s -  
+ #   j e c y a n i p r o p e r t i e s  
  
