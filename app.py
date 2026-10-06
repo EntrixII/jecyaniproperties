@@ -1,20 +1,22 @@
 from flask import *
+import os
 
 app = Flask(__name__)
 
 # ==================== SEO: ROBOTS & SITEMAP ====================
 # NOTE: these must be served from the domain ROOT (not /static/) for
-# search engines to find them. Previously there was no route for
-# either file, so https://jecyaniproperties.com/robots.txt and
-# /sitemap.xml both 404'd even though robots.txt referenced the sitemap.
+# search engines to find them. Using absolute paths based on the file
+# location of app.py so they work regardless of where you launch from.
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/robots.txt')
 def robots_txt():
-    return send_from_directory(app.static_folder, 'robots.txt', mimetype='text/plain')
+    return send_from_directory(os.path.join(BASE_DIR, 'static'), 'robots.txt', mimetype='text/plain')
 
 @app.route('/sitemap.xml')
 def sitemap_xml():
-    return Response(render_template('sitemap.xml'), mimetype='application/xml')
+    return send_from_directory(os.path.join(BASE_DIR, 'templates'), 'sitemap.xml', mimetype='application/xml')
 
 # ==================== MAIN PAGES ====================
 
@@ -107,7 +109,7 @@ def estate_cedar_city():
 def estate_oakwood():
     return render_template('estate-oakwood-city-umuahia.html')
 
-# ==================== NEW UMUAHIA ESTATES ====================
+# ==================== UMUAHIA ESTATES ====================
 
 @app.route('/estates/billionaire-estate-umuahia')
 def estate_billionaire():
@@ -124,6 +126,21 @@ def estate_amakama_housing():
 @app.route('/estates/ibb-estate-cof-umuahia')
 def estate_ibb_cof():
     return render_template('estate-ibb-cof-umuahia.html')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(BASE_DIR, 'static'), 'logo.jpeg', mimetype='image/jpeg')
+
+@app.route('/estates/newtown-sars-portharcourt')
+def estate_newtown_sars_ph():
+    return render_template('estate-newtown-sars-portharcourt.html')
+
+
+# Featured Abuja Property
+@app.route('/estates/4bed-detached-lokogoma-abuja')
+def estate_lokogoma_duplex():
+    return render_template('estate-4bed-detached-lokogoma-abuja.html')
+
 
 @app.route('/estates/ibb-estate-umuahia')
 def estate_ibb():
